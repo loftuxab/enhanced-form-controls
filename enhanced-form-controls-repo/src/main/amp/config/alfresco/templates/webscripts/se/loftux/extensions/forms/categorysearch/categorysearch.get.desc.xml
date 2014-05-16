@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>categorysearch</shortname>
+  <description>Get Category items</description>
+  <url>/loftux/categorysearch</url>
+  <format default="json"></format>
+  <authentication>user</authentication>
+  <transaction allow="readonly">required</transaction>
+</webscript>
