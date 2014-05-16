@@ -6,6 +6,7 @@
 			<dependencies>
         <!-- Include some extra assets -->           
 				<js src="/se/loftux/extensions/forms/enhanced-controls.js" />
+        <css src="/se/loftux/extensions/forms/enhanced-controls.css" />
 				<css src="/yui/autocomplete/assets/skins/sam/autocomplete.css" />
 				<js src="/yui/datasource/datasource-min.js" />
 				<js src="/yui/autocomplete/autocomplete-min.js" />

@@ -35,8 +35,8 @@
          <#if field.disabled == false>
             <div id="${controlId}-currentValueDisplay" class="current-values"></div>
             <input type="hidden" id="${fieldHtmlId}" name="${field.name}" value="${field.value?html}" />
-            <input type="text" id="${controlId}-input" class="peopleautocomplete" name="-" />
-            <div id="${controlId}-container" class="peopleautocomplete"></div>
+            <input type="text" id="${controlId}-input" class="loftuxautcomplete" name="-" />
+            <div id="${controlId}-container" class="loftuxautcomplete"></div>
          </#if>
          <#if field.control.params.showSubCategoriesOption?? && field.control.params.showSubCategoriesOption == "true">
              <div class="subcats-option">

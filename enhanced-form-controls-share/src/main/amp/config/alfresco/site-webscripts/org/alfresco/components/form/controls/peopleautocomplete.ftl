@@ -3,7 +3,7 @@
 <script type="text/javascript">//<![CDATA[
 (function()
 {
-   var peopleautocomplete = new Loftux.controls.PeopleAutocomplete("${controlId}", "${fieldHtmlId}").setOptions(
+   var loftuxautcomplete = new Loftux.controls.loftuxautcomplete("${controlId}", "${fieldHtmlId}").setOptions(
    {
       mode: "${form.mode}",
       currentValue: "${field.value}",
@@ -37,8 +37,8 @@
             <input type="hidden" id="${fieldHtmlId}" name="-" value="${field.value?html}" />
             <input type="hidden" id="${controlId}-added" name="${field.name}_added" />
             <input type="hidden" id="${controlId}-removed" name="${field.name}_removed" />
-            <input type="text" id="${controlId}-input" class="peopleautocomplete" name="-" />
-            <div id="${controlId}-container" class="peopleautocomplete"></div>
+            <input type="text" id="${controlId}-input" class="loftuxautcomplete" name="-" />
+            <div id="${controlId}-container" class="loftuxautcomplete"></div>
          </#if>
 
       </div>
