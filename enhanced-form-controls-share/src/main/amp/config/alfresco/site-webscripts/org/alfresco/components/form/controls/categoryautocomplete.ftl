@@ -7,6 +7,7 @@
    {
       mode: "${form.mode}",
       currentValue: "${field.value}",
+      multipleSelectMode: ${(field.control.params.multipleSelectMode!false)?string},
       <#if field.mandatory??>
       mandatory: ${field.mandatory?string},
       <#elseif field.endpointMandatory??>
@@ -19,6 +20,8 @@
 })();
 //]]></script>
 
+<#assign isMultiple=(field.control.params.multipleSelectMode!"false")>
+
 <div class="form-field">
    <#if form.mode == "view">
       <div id="${controlId}" class="viewmode-field">
@@ -26,17 +29,29 @@
             <span class="incomplete-warning"><img src="${url.context}/res/components/form/images/warning-16.png" title="${msg("form.field.incomplete")}" /><span>
          </#if>
          <span class="viewmode-label">${field.label?html}:</span>
-         <span id="${controlId}-currentValueDisplay" class="viewmode-value current-values"></span>
+         <#if isMultiple == "true">
+        	<div id="${controlId}-selectedItemsContainer"></div>
+        <#else>
+        	<span id="${controlId}-currentValueDisplay" class="viewmode-value current-values"></span>
+        </#if>
+         
+         
       </div>
    <#else>
       <label for="${controlId}">${field.label?html}:<#if field.endpointMandatory><span class="mandatory-indicator">${msg("form.required.fields.marker")}</span></#if></label>
 
       <div id="${controlId}" class="">
          <#if field.disabled == false>
-            <div id="${controlId}-currentValueDisplay" class="current-values"></div>
             <input type="hidden" id="${fieldHtmlId}" name="${field.name}" value="${field.value?html}" />
             <input type="text" id="${controlId}-input" class="loftuxautcomplete" name="-" />
             <div id="${controlId}-container" class="loftuxautcomplete"></div>
+            
+            
+            <#if isMultiple == "true">
+            	<div id="${controlId}-selectedItemsContainer"></div>
+            <#else>
+            	<div id="${controlId}-currentValueDisplay" class="current-values"></div>
+            </#if>
          </#if>
          <#if field.control.params.showSubCategoriesOption?? && field.control.params.showSubCategoriesOption == "true">
              <div class="subcats-option">

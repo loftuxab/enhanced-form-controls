@@ -185,7 +185,9 @@
                  <control template="/org/alfresco/components/form/controls/peopleautocomplete.ftl" />
                </field>
               <field id="cm:categories">
-                 <control template="/org/alfresco/components/form/controls/categoryautocomplete.ftl" />
+                 <control template="/org/alfresco/components/form/controls/categoryautocomplete.ftl">
+                 	<control-param name="multipleSelectMode">true</control-param>
+                 </control>
               </field>
             </appearance>
          </form>

@@ -187,6 +187,8 @@
    {
       Loftux.controls.CategoryAutocomplete.superclass.constructor.call(this, "Loftux.controls.CategoryAutocomplete", htmlId, [ "autocomplete" ]);
       this.currentValueHtmlId = currentValueHtmlId;
+      YAHOO.Bubbling.on('categoryItemRemoved', this.onItemRemove, this);
+      
 
       return this;
    };
@@ -197,14 +199,64 @@
       options : {
          mode : "view",
          currentValue : "",
-         mandatory : false
+         mandatory : false,
+		 multipleSelectMode: true
       },
+      properties : {
+    	  currentlySelected : []  
+      },
+      
+      addItem : function PA_addItem(item){
+    	  this.properties.currentlySelected.push(item);
+    	  this.renderCurrentValues();
+      },
+      
+      onItemRemove : function PA_onItemRemove(event, item){
+    	  var nodeRef = item[1];
+    	  var item = null;
+    	  
+    	  for(var x = 0; x < this.properties.currentlySelected.length; x++){
+    		  if(nodeRef == this.properties.currentlySelected[x].nodeRef){
+    			  this.properties.currentlySelected.splice(x, 1);
+    		  }
+    	  }
+    	  this.updateMultipleSelectValues();
+    	  this.renderCurrentValues();
+      },
+      
+      renderCurrentValues : function PA_renderCurrentValues(){
+    	  var html = "";
+    	  
+    	  for(var x = 0; x < this.properties.currentlySelected.length; x++){
+    		  var currentNode = this.properties.currentlySelected[x];
+    		  html += this._formatCurrentValueWithRemoveButton(currentNode.nodeRef,currentNode.type, currentNode.name);
+    	  }
+    	  
+    	  Dom.get(this.id + "-selectedItemsContainer").innerHTML = html;
+      },
+
+      getCommaSeparatedCurrentValues : function PA_getCommaSeperatedCurrentValues(){
+    	  var nodeRefs = [];
+    	  for(var x = 0; x < this.properties.currentlySelected.length; x++){
+    		  nodeRefs.push(this.properties.currentlySelected[x].nodeRef);
+    	  }
+    	  return nodeRefs.join();
+      },
+      
+
+      
+      updateMultipleSelectValues : function PA_updateMultipleSelectValues(){
+    	  Dom.get(this.currentValueHtmlId).value = this.getCommaSeparatedCurrentValues();
+      },
+      
+      
       onReady : function PA_onReady()
       {
 
          var arrItems = [], arrItemsToFetch = [];
 
          arrItems = this.options.currentValue.split(",");
+
          // remove archived node
          for ( var i = 0, il = arrItems.length; i < il; i++)
          {
@@ -217,17 +269,22 @@
          var onSuccess = function ObjectFinder__loadSelectedItems_onSuccess(response)
          {
             var items = response.json.data.items, item, html = '';
-            for ( var key in items)
-            {
-               if (items.hasOwnProperty(key))
-               {
-                  item = items[key];
-                  html += this._formatCurrentValue(item.type, item.name);
-               }
-               Dom.get(this.id + "-currentValueDisplay").innerHTML = html;
-
+            
+            if(this.options.multipleSelectMode){
+            	this.properties.currentlySelected = items;
+            	this.renderCurrentValues();
+            }else{
+            	for ( var key in items)
+                {
+                	   if (items.hasOwnProperty(key))
+                       {
+                          item = items[key];
+                          html += this._formatCurrentValue(item.type, item.name);
+                       }
+                	   Dom.get(this.id + "-currentValueDisplay").innerHTML = html;   
+                }
             }
-
+            
          };
 
          if (arrItemsToFetch.length > 0)
@@ -297,16 +354,37 @@
             {
                var selected = oArgs[2];
 
-               Dom.get(this.id + "-currentValueDisplay").innerHTML = this._formatCurrentValue("cm:category", selected[1]);
-
-               Dom.get(this.currentValueHtmlId).value = selected[0];
-
+               if(this.options.multipleSelectMode){
+            	   this.addItem({
+                	   "nodeRef" : selected[0],
+                	   "type" : "cm:category",
+                	   "name" : selected[1]
+                   });
+            	   this.updateMultipleSelectValues();
+               }else{
+            	   Dom.get(this.id + "-currentValueDisplay").innerHTML = this._formatCurrentValue("cm:category", selected[1]);
+                   Dom.get(this.currentValueHtmlId).value = selected[0];
+               }
+               
+               
                if (this.options.mandatory)
                {
                   YAHOO.Bubbling.fire("mandatoryControlValueUpdated", this);
                }
             }));
-         }
+         }		
+         
+      },
+      
+      
+      _formatCurrentValueWithRemoveButton : function PA_formatCurrentValueWithRemoveButton(nodeRef, type, name)
+      {
+         var html = '<div class="itemtype-' + $html(type) + '"><img src="' + Alfresco.constants.URL_RESCONTEXT + 'components/images/filetypes/' +
+           Alfresco.util.getFileIcon(name, type, 16) + '"';
+         //onclick="event.preventDefault();YAHOO.Bubbling.fire(\"categoryItemRemoved\", \"' + $html(nodeRef) + '\")"
+         html += ' width="16" alt="" title="' + $html(name) + '" />' + name + '<a href="#" onclick="event.preventDefault();YAHOO.Bubbling.fire(\'categoryItemRemoved\', \'' + $html(nodeRef) + '\')" > [x]</a></div>';
+         return html;
+
       },
 
       _formatCurrentValue : function PA_formatCurrentValue(type, name)
