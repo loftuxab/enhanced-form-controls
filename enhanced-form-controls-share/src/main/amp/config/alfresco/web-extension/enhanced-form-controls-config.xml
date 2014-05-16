@@ -16,7 +16,7 @@
 	</config>
 
 
-<!-- Blow for testing purposes - may be removed later -->
+<!-- Below for testing purposes - may be removed later -->
 	<config evaluator="string-compare" condition="DocumentLibrary">
 		<!-- Used by the "Manage Aspects" action For custom aspects, remember to also add the relevant i18n string(s) cm_myaspect=My Aspect -->
 		<aspects>
@@ -41,7 +41,7 @@
   </config>
 
 <!-- cm:content type (existing nodes) -->
-   <config evaluator="node-type" condition="cm:content">
+   <config evaluator="node-type" condition="cm:content" replace="true">
       <forms>
          <!-- Default form configuration for the cm:content type -->
          <form>
@@ -59,88 +59,6 @@
 
                <!-- tags and categories -->
                <show id="cm:taggable" force="true" />
-
-               <!-- cm:dublincore aspect -->
-               <show id="cm:publisher"/>
-               <show id="cm:contributor"/>
-               <show id="cm:type"/>
-               <show id="cm:identifier"/>
-               <show id="cm:dcsource"/>
-               <show id="cm:coverage"/>
-               <show id="cm:rights"/>
-               <show id="cm:subject"/>
-
-               <!-- cm:complianceable aspect -->
-               <show id="cm:removeAfter" />
-
-               <!-- cm:effectivity aspect -->
-               <show id="cm:from"/>
-               <show id="cm:to"/>
-
-               <!--  cm:summarizable aspect -->
-               <show id="cm:summary" />
-
-               <!-- cm:translatable aspect -->
-               <show id="cm:translations" />
-
-               <!-- cm:localizable aspect -->
-               <show id="cm:locale" />
-
-               <!-- cm:ownable aspect -->
-               <show id="cm:owner" />
-
-               <!-- cm:attachable aspect -->
-               <show id="cm:attachments" />
-
-               <!-- cm:emailed aspect -->
-               <show id="cm:originator" />
-               <show id="cm:addressee" />
-               <show id="cm:addressees" />
-               <show id="cm:sentdate" />
-               <show id="cm:subjectline" />
-
-               <!-- exif:exif aspect -->
-               <show id="exif:dateTimeOriginal" />
-               <show id="exif:pixelXDimension" />
-               <show id="exif:pixelYDimension" />
-               <show id="exif:exposureTime" />
-               <show id="exif:fNumber" />
-               <show id="exif:flash" />
-               <show id="exif:focalLength" />
-               <show id="exif:isoSpeedRatings" />
-               <show id="exif:manufacturer" />
-               <show id="exif:model" />
-               <show id="exif:software" />
-               <show id="exif:orientation" />
-               <show id="exif:xResolution" />
-               <show id="exif:yResolution" />
-               <show id="exif:resolutionUnit" />
-
-               <!-- audio:audio aspect -->
-               <show id="audio:album" />
-               <show id="audio:artist" />
-               <show id="audio:composer" />
-               <show id="audio:engineer" />
-               <show id="audio:genre" />
-               <show id="audio:trackNumber" />
-               <show id="audio:releaseDate" />
-               <show id="audio:sampleRate" />
-               <show id="audio:sampleType" />
-               <show id="audio:channelType" />
-               <show id="audio:compressor" />
-
-               <!-- cm:indexControl aspect -->
-               <show id="cm:isIndexed" />
-               <show id="cm:isContentIndexed" />
-
-               <!-- cm:geographic aspect -->
-               <show id="cm:latitude" />
-               <show id="cm:longitude" />
-
-               <!-- surf:widget aspect -->
-               <show id="surf:widgetType"/>
-               <show id="surf:mid"/>
-               <show id="surf:label"/>
 
                <!-- Subscribable aspect -->
                <show id="cm:subscribedBy" force="true"/>
@@ -176,19 +94,15 @@
                   </control>
                </field>
 
-               <field id="cm:originator" read-only="true" />
-               <field id="cm:addressee" read-only="true" />
-               <field id="cm:addressees" read-only="true" />
-               <field id="cm:sentdate" read-only="true" />
-               <field id="cm:subjectline" read-only="true" />
                <field id="cm:subscribedBy">
                  <control template="/org/alfresco/components/form/controls/peopleautocomplete.ftl" />
                </field>
-              <field id="cm:categories">
+    		         <field id="cm:categories">
                  <control template="/org/alfresco/components/form/controls/categoryautocomplete.ftl">
                  	<control-param name="multipleSelectMode">true</control-param>
                  </control>
               </field>
+
             </appearance>
          </form>
 
@@ -200,7 +114,9 @@
                <show id="cm:description" force="true" />
                <!-- tags and categories -->
                <show id="cm:taggable" for-mode="edit" force="true" />
-               <show id="cm:categories" />
+               <!-- Subscribable aspect -->
+							<show id="cm:subscribedBy" force="true"/>
+							<show id="cm:categories" force="true"/>
             </field-visibility>
             <edit-form template="../documentlibrary/forms/doclib-simple-metadata.ftl" />
             <appearance>

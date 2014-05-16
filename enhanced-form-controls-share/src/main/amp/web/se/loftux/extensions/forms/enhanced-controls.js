@@ -91,7 +91,7 @@
 
 			if (this.options.mode !== "view")
 			{
-				var me = this, url = Alfresco.constants.PROXY_URI_RELATIVE + 'api/people?maxResults=5';
+				var me = this, url = Alfresco.constants.PROXY_URI_RELATIVE + 'loftux/peoplesearch?maxResults=5';
 				var oDS = new YAHOO.util.XHRDataSource(url);
 
 				// Set the responseType
