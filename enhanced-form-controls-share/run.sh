@@ -1,0 +1,1 @@
+MAVEN_OPTS="-Xms256m -Xmx2G -XX:PermSize=300m" mvn integration-test -Pamp-to-war -Dmaven.tomcat.port=8081
