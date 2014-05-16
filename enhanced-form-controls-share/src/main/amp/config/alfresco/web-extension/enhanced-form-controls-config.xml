@@ -59,7 +59,6 @@
 
                <!-- tags and categories -->
                <show id="cm:taggable" force="true" />
-               <show id="cm:categories" force="true"/>
 
                <!-- cm:dublincore aspect -->
                <show id="cm:publisher"/>
@@ -145,6 +144,7 @@
 
                <!-- Subscribable aspect -->
                <show id="cm:subscribedBy" force="true"/>
+               <show id="cm:categories" force="true"/>
 
             </field-visibility>
             <appearance>

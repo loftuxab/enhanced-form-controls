@@ -3,7 +3,7 @@
 <script type="text/javascript">//<![CDATA[
 (function()
 {
-   var loftuxautcomplete = new Loftux.controls.loftuxautcomplete("${controlId}", "${fieldHtmlId}").setOptions(
+   var loftuxautcomplete = new Loftux.controls.PeopleAutocomplete("${controlId}", "${fieldHtmlId}").setOptions(
    {
       mode: "${form.mode}",
       currentValue: "${field.value}",
