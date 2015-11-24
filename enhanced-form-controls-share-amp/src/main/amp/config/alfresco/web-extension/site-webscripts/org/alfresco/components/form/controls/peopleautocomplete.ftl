@@ -1,4 +1,5 @@
 <#assign controlId = fieldHtmlId + "-cntrl">
+<#assign usernameOnly = (field.control.params.usernameOnly!false)?string >
 
 <script type="text/javascript">//<![CDATA[
 (function()
@@ -12,6 +13,8 @@
       <#elseif field.endpointMandatory??>
       mandatory: ${field.endpointMandatory?string},
       </#if>
+      usernameOnly : ${usernameOnly}
+
    }).setMessages(
       ${messages}
    );
@@ -32,14 +35,16 @@
       <label for="${controlId}">${field.label?html}:<#if field.endpointMandatory><span class="mandatory-indicator">${msg("form.required.fields.marker")}</span></#if></label>
 
       <div id="${controlId}" class="">
-         <#if field.disabled == false>
             <div id="${controlId}-currentValueDisplay" class="current-values"></div>
-            <input type="hidden" id="${fieldHtmlId}" name="-" value="${field.value?html}" />
-            <input type="hidden" id="${controlId}-added" name="${field.name}_added" />
-            <input type="hidden" id="${controlId}-removed" name="${field.name}_removed" />
-            <input type="text" id="${controlId}-input" class="loftuxautcomplete" name="-" />
-            <div id="${controlId}-container" class="loftuxautcomplete"></div>
-         </#if>
+            <#if usernameOnly == "true">
+                <input type="hidden" id="${controlId}-username" name="${field.name}" value="${field.value?html}" />
+            <#else>
+                <input type="hidden" id="${fieldHtmlId}" name="-" value="${field.value?html}" />
+                <input type="hidden" id="${controlId}-added" name="${field.name}_added" />
+                <input type="hidden" id="${controlId}-removed" name="${field.name}_removed" />
+            </#if>
+             <input type="text" id="${controlId}-input" class="loftuxautcomplete" name="-" />
+             <div id="${controlId}-container" class="loftuxautcomplete"></div>
 
       </div>
    </#if>
